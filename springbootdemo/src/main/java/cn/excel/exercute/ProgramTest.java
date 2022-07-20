@@ -5,6 +5,7 @@ import cn.excel.po.Student;
 import cn.excel.service.Impl.StudentServerImpl;
 import cn.excel.service.StudentServer;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -29,6 +30,7 @@ public class ProgramTest {
             List<Student> read = read(path);
             //将List<Student>解析并写入数据库中
             studentServer.parse(read);
+            System.out.println("文件写入数据库完成");
         }else if(num == 2){
             //查找数据库中student表的信息，并将数据封装成一个studentList集合
             List<Student> studentList = studentServer.findAll();
@@ -55,8 +57,10 @@ public class ProgramTest {
         try {
             //创建工作簿
             xssfWorkbook = new XSSFWorkbook("D:\\TempExcel\\studentstoup.xlsx");
+            SXSSFWorkbook sxssfWorkbook=new SXSSFWorkbook(xssfWorkbook,-1);
+
             //创建工作表
-            XSSFSheet sheet = xssfWorkbook.getSheetAt(0);
+            XSSFSheet sheet = sxssfWorkbook.getXSSFWorkbook().getSheetAt(0);
             //获取最后一行是第几行
             int lastRowNum = sheet.getLastRowNum();
             //由于第一行是字段名称，不做读取，后面建表的时候生成字段，因此这里从第二行开始读取，注意第二行的下标是1
@@ -100,7 +104,7 @@ public class ProgramTest {
     public static void write(List<Student> studentList,String path){
         System.out.println(studentList);
         //创建一个工作簿
-        Workbook xssfWorkbook = new XSSFWorkbook();
+        SXSSFWorkbook xssfWorkbook = new SXSSFWorkbook();
         //创建一个表
         Sheet student = xssfWorkbook.createSheet("学生信息");
         //创建第一行
