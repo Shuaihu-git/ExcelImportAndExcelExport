@@ -5,6 +5,8 @@ import cn.excel.po.Student;
 import cn.excel.service.Impl.StudentServerImpl;
 import cn.excel.service.StudentServer;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFRow;
+import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class ProgramTest {
     public static void main(String[] args)  {
@@ -23,23 +26,29 @@ public class ProgramTest {
         int num = sc.nextInt();
         StudentServer studentServer = new StudentServerImpl();
         if(num == 1){
+            long a= System.currentTimeMillis();
             //读取excel文件中的内容
-            System.out.println("请您输入需要读取的excel文件的路径");
             String path = "D:\\TempExcel\\students.xlsx";
             //将封装好的对象信息导入到数据库中
             List<Student> read = read(path);
             //将List<Student>解析并写入数据库中
             studentServer.parse(read);
+            long b= System.currentTimeMillis();
+            long c=b-a;
+            System.out.println("耗时："+c/1000+"s");
             System.out.println("文件写入数据库完成");
         }else if(num == 2){
             //查找数据库中student表的信息，并将数据封装成一个studentList集合
+            long a= System.currentTimeMillis();
             List<Student> studentList = studentServer.findAll();
             //将studentList集合中的数据写入磁盘
-            System.out.println("请您输入需要写入的文件路径：");
             //通过控制台输入路径
-            String path = "D:\\TempExcel\\students.xlsx";
+            String path = "D:\\TempExcel\\数据库导出学生信息表.xlsx";
             //将封装好的对象进行解析，并写入本地excel文件
             write(studentList,path);
+            long b= System.currentTimeMillis();
+            long c=b-a;
+            System.out.println("耗时："+c/1000+"s");
             //程序运行完毕后提示运行成功
             System.out.println("写入成功");
         }else {
@@ -53,20 +62,23 @@ public class ProgramTest {
      */
     public static List<Student> read(String path){
         XSSFWorkbook xssfWorkbook = null;
+
         List<Student> studentList = new ArrayList<>();
         try {
             //创建工作簿
             xssfWorkbook = new XSSFWorkbook("D:\\TempExcel\\studentstoup.xlsx");
             SXSSFWorkbook sxssfWorkbook=new SXSSFWorkbook(xssfWorkbook,-1);
-
             //创建工作表
             XSSFSheet sheet = sxssfWorkbook.getXSSFWorkbook().getSheetAt(0);
             //获取最后一行是第几行
+
             int lastRowNum = sheet.getLastRowNum();
+
             //由于第一行是字段名称，不做读取，后面建表的时候生成字段，因此这里从第二行开始读取，注意第二行的下标是1
             for (int i = 1; i <= lastRowNum; i++) {
                 //获取行
                 XSSFRow row = sheet.getRow(i);
+                
                 //进行行的非空判断后，在遍历，避免空指针
                 if(row != null){
                     //实例化一个List集合，用于存放一行读取出来的所有单元数据
@@ -80,10 +92,9 @@ public class ProgramTest {
                             //获取单元格的数据
                             String value = cell.getStringCellValue();
                             //将每个单元格数据加入List集合中
-
                             list.add(value);
                         }
-                        System.out.println(list);
+
                     }
                     //将读取出的每个行的数据封装成一个Student对象
                     String  a=String.valueOf(list.get(0));
@@ -104,9 +115,9 @@ public class ProgramTest {
     public static void write(List<Student> studentList,String path){
         System.out.println(studentList);
         //创建一个工作簿
-        SXSSFWorkbook xssfWorkbook = new SXSSFWorkbook();
+        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
         //创建一个表
-        Sheet student = xssfWorkbook.createSheet("学生信息");
+        Sheet student = sxssfWorkbook.createSheet("学生信息");
         //创建第一行
         Row row1 = student.createRow(0);
         //为第一行的每个单元格赋值
@@ -128,7 +139,7 @@ public class ProgramTest {
                 row.createCell(3).setCellValue(studentList.get(i).getSex());
                 row.createCell(4).setCellValue(studentList.get(i).getHabit());
             }
-            xssfWorkbook.write(out);
+            sxssfWorkbook.write(out);
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,8 +149,8 @@ public class ProgramTest {
                 if(out != null){
                     out.close();
                 }
-                if(xssfWorkbook != null){
-                    xssfWorkbook.close();
+                if(sxssfWorkbook != null){
+                    sxssfWorkbook.close();
                 }
             }catch(Exception e){
                 e.printStackTrace();

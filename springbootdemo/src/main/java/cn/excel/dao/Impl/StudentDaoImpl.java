@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class StudentDaoImpl implements StudentDao {
@@ -66,6 +67,34 @@ public class StudentDaoImpl implements StudentDao {
                 String sex = rs.getString(4);
                 String habit = rs.getString(5);
                 studentList.add(new Student(id,name,age,sex,habit));
+            }
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+        }
+        return studentList;
+    }
+
+
+    @Override
+    public List<String> saveList() {
+        String sql = "select id,name,age,sex,habit from students";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Student student = null;
+        connection = DBUtil_druid.getConnection();
+        List<String> studentList = new ArrayList<>();
+        try {
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                int age = rs.getInt(3);
+                String sex = rs.getString(4);
+                String habit = rs.getString(5);
+                studentList.add(id+"|"+name+"|"+age+"|"+sex+"|"+habit+"|\r\n");
+
             }
         } catch (Exception throwables) {
             throwables.printStackTrace();

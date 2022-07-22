@@ -29,4 +29,9 @@ public class StudentServerImpl implements StudentServer {
     public List<Student> findAll() {
         return studentDao.findAll();
     }
+
+    @Override
+    public List<String> saveList() {
+        return studentDao.saveList();
+    }
 }

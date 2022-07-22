@@ -17,4 +17,7 @@ public interface StudentDao {
      */
     List<Student> findAll();
 
+
+    List<String> saveList();
+
 }

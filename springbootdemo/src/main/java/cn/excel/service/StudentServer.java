@@ -16,4 +16,5 @@ public interface StudentServer {
      * @return
      */
     List<Student> findAll();
+    List<String> saveList();
 }
