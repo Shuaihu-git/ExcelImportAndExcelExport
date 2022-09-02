@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class test {
+public class test {//测试.dat文件读出带有分隔符”|“的数据导入数据库中
     public static void main(String[] args) throws Exception {
         File file=new File("C:\\Users\\张帅虎\\Desktop\\in.dat");
         FileOutputStream fileOutputStream=new FileOutputStream(file);

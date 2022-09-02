@@ -8,12 +8,12 @@ import java.io.IOException;
 /**
  * 使用poi读取excel文件中的内容
  */
-public class ReadExcelTest {
+public class ReadExcelTest {//读取Excel测试
     public static void main(String[] args) {
         XSSFWorkbook workbook = null;
         try {
             //创建工作簿
-            workbook = new XSSFWorkbook("D:/test.xlsx");
+            workbook = new XSSFWorkbook("D:/test1.xlsx");
             //获取工作表
             XSSFSheet sheet = workbook.getSheetAt(0);
             //遍历工作表

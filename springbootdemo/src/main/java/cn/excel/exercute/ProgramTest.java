@@ -36,7 +36,7 @@ public class ProgramTest {
             long b= System.currentTimeMillis();
             long c=b-a;
             System.out.println("耗时："+c/1000+"s");
-            System.out.println("文件写入数据库完成");
+            System.out.println("文件写入数据库完成、路径为："+path);
         }else if(num == 2){
             //查找数据库中student表的信息，并将数据封装成一个studentList集合
             long a= System.currentTimeMillis();
@@ -50,7 +50,7 @@ public class ProgramTest {
             long c=b-a;
             System.out.println("耗时："+c/1000+"s");
             //程序运行完毕后提示运行成功
-            System.out.println("写入成功");
+            System.out.println("数据写入Excel成功，路径为："+path);
         }else {
             System.out.println("请您重新输入");
         }
@@ -98,8 +98,8 @@ public class ProgramTest {
                     }
                     //将读取出的每个行的数据封装成一个Student对象
                     String  a=String.valueOf(list.get(0));
-                    System.out.println(new String(a).replaceAll("\\.0", ""));
-                    System.out.println(a);
+                    /*System.out.println(new String(a).replaceAll("\\.0", ""));
+                    System.out.println(a);*/
                     Student student = new Student(Integer.parseInt(String.valueOf(list.get(0).replaceAll("\\.0", ""))), list.get(1), Integer.parseInt(String.valueOf(list.get(2)).replaceAll("\\.0", "")), list.get(3), list.get(4));
                     //将每个Student对象添加到studentList集合中，相当于一个studentList集合装的就是一个sheet表的数据
                     studentList.add(student);
@@ -113,7 +113,7 @@ public class ProgramTest {
     }
 
     public static void write(List<Student> studentList,String path){
-        System.out.println(studentList);
+//        System.out.println(studentList);
         //创建一个工作簿
         SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
         //创建一个表
