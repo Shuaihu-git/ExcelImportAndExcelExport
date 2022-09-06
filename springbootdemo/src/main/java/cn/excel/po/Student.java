@@ -1,6 +1,9 @@
 package cn.excel.po;
 import java.util.Objects;
-
+/**
+ * @Author 张帅虎
+ * @Data 2022/9/6
+ */
 /**
  * 通过表格中的属性映射成一个java类
  */

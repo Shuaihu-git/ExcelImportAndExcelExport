@@ -10,8 +10,8 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
- * @author XXX
- * 数据库工具类 内部维护一个通过druid实现的连接池
+ * @Author 张帅虎
+ * @Data 2022/9/6
  */
 public class DBUtil_druid {
     private static DataSource pool;
