@@ -13,16 +13,20 @@ public class Student{
     private int age;
     private String sex;
     private String habit;
+    private Integer departmentid;
+    private Integer courseid;
 
-    public Student() {
-    }
 
-    public Student(int id, String name, int age, String sex, String habit) {
+    public Student(){}
+
+    public Student(int id, String name, int age, String sex, String habit, Integer departmentid, Integer courseid) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.sex = sex;
         this.habit = habit;
+        this.departmentid = departmentid;
+        this.courseid = courseid;
     }
 
     public int getId() {
@@ -64,21 +68,21 @@ public class Student{
     public void setHabit(String habit) {
         this.habit = habit;
     }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Student student = (Student) o;
-        return id == student.id &&
-                age == student.age &&
-                Objects.equals(name, student.name) &&
-                Objects.equals(sex, student.sex) &&
-                Objects.equals(habit, student.habit);
+
+    public void setCourseid(Integer courseid) {
+        this.courseid = courseid;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, age, sex, habit);
+    public Integer getCourseid() {
+        return courseid;
+    }
+
+    public void setDepartmentid(Integer departmentid) {
+        this.departmentid = departmentid;
+    }
+
+    public Integer getDepartmentid() {
+        return departmentid;
     }
 
     @Override
@@ -89,6 +93,21 @@ public class Student{
                 ", age=" + age +
                 ", sex='" + sex + '\'' +
                 ", habit='" + habit + '\'' +
+                ", departmentid=" + departmentid +
+                ", courseid=" + courseid +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && age == student.age && Objects.equals(name, student.name) && Objects.equals(sex, student.sex) && Objects.equals(habit, student.habit) && departmentid.equals(student.departmentid) && courseid.equals(student.courseid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, sex, habit, departmentid, courseid);
     }
 }

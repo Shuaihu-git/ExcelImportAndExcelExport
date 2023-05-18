@@ -20,4 +20,5 @@ public interface StudentDao {
 
     List<String> saveList();
 
+    void batchInsert(List<Student> students);
 }

@@ -20,4 +20,6 @@ public interface StudentServer {
      */
     List<Student> findAll();
     List<String> saveList();
+
+    void batchInsert(List<Student> students);
 }

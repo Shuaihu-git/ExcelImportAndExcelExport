@@ -5,8 +5,6 @@ import cn.excel.po.Student;
 import cn.excel.service.Impl.StudentServerImpl;
 import cn.excel.service.StudentServer;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.streaming.SXSSFRow;
-import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Timer;
 
 /**
  * @Author 张帅虎
@@ -32,11 +29,11 @@ public class ProgramTest {
         if(num == 1){
             long a= System.currentTimeMillis();
             //读取excel文件中的内容
-            String path = "D:\\TempExcel\\students.xlsx";
+            String path = "D:\\TempExcel\\test.xlsx";
             //将封装好的对象信息导入到数据库中
             List<Student> read = read(path);
             //将List<Student>解析并写入数据库中
-            studentServer.parse(read);
+            studentServer.batchInsert(read);
             long b= System.currentTimeMillis();
             long c=b-a;
             System.out.println("耗时："+c/1000+"s");
@@ -70,7 +67,8 @@ public class ProgramTest {
         List<Student> studentList = new ArrayList<>();
         try {
             //创建工作簿
-            xssfWorkbook = new XSSFWorkbook("D:\\TempExcel\\studentstoup.xlsx");
+            xssfWorkbook = new XSSFWorkbook("D:\\TempExcel\\test.xlsx");
+
             SXSSFWorkbook sxssfWorkbook=new SXSSFWorkbook(xssfWorkbook,-1);
             //创建工作表
             XSSFSheet sheet = sxssfWorkbook.getXSSFWorkbook().getSheetAt(0);
@@ -104,7 +102,10 @@ public class ProgramTest {
                     String  a=String.valueOf(list.get(0));
                     /*System.out.println(new String(a).replaceAll("\\.0", ""));
                     System.out.println(a);*/
-                    Student student = new Student(Integer.parseInt(String.valueOf(list.get(0).replaceAll("\\.0", ""))), list.get(1), Integer.parseInt(String.valueOf(list.get(2)).replaceAll("\\.0", "")), list.get(3), list.get(4));
+                    Student student = new Student(Integer.parseInt(String.valueOf(list.get(0).replaceAll("\\.0", ""))), list.get(1), Integer
+                            .parseInt(String.valueOf(list.get(2)).replaceAll("\\.0", "")),
+                            list.get(3), list.get(4), Integer.parseInt(list.get(5)),
+                            Integer.parseInt(list.get(6)));
                     //将每个Student对象添加到studentList集合中，相当于一个studentList集合装的就是一个sheet表的数据
                     studentList.add(student);
                 }
@@ -130,6 +131,8 @@ public class ProgramTest {
         row1.createCell(2).setCellValue("年龄");
         row1.createCell(3).setCellValue("性别");
         row1.createCell(4).setCellValue("爱好");
+        row1.createCell(5).setCellValue("部门id");
+        row1.createCell(6).setCellValue("课程id");
         FileOutputStream out = null;
         try {
             //创建一个输出流
@@ -142,6 +145,8 @@ public class ProgramTest {
                 row.createCell(2).setCellValue(studentList.get(i).getAge());
                 row.createCell(3).setCellValue(studentList.get(i).getSex());
                 row.createCell(4).setCellValue(studentList.get(i).getHabit());
+                row.createCell(5).setCellValue(studentList.get(i).getDepartmentid());
+                row.createCell(6).setCellValue(studentList.get(i).getCourseid());
             }
             sxssfWorkbook.write(out);
             out.flush();

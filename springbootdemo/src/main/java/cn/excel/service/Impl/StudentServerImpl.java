@@ -24,6 +24,8 @@ public class StudentServerImpl implements StudentServer {
         }
     }
 
+
+
     /**
      * 查找student表中的所有数据，并返回成一个List对象
      * @return
@@ -36,5 +38,10 @@ public class StudentServerImpl implements StudentServer {
     @Override
     public List<String> saveList() {
         return studentDao.saveList();
+    }
+
+    @Override
+    public void batchInsert(List<Student> students) {
+        studentDao.batchInsert(students);
     }
 }
