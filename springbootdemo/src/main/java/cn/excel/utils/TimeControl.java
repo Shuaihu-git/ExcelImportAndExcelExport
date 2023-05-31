@@ -20,7 +20,7 @@ public class TimeControl extends TimerTask  {
     @Override
     public void run() {
         StudentServer studentServer=new StudentServerImpl();
-        List<String> list=studentServer.saveList();
+        List<String> list=studentServer. saveList();
         System.out.println(list);
         File file=new File("C:\\Users\\张帅虎\\Desktop\\out.dat");
         try {

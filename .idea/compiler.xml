@@ -4,6 +4,7 @@
     <option name="BUILD_PROCESS_HEAP_SIZE" value="7000" />
     <option name="BUILD_PROCESS_ADDITIONAL_VM_OPTIONS" value="-Xms6000m  -Xmx6000m" />
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
